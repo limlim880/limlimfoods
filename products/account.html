@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Your Limlim Foods account dashboard" />
+  <title>My Account • Limlim Foods</title>
+  <style>
+    :root{
+      --brand-red:#D41010;
+      --brand-navy:#1B2740;
+      --brand-yellow:#FFD66A;
+      --bg:#FBFBFB;
+      --card:#FFFFFF;
+      --muted:#5b6670;
+      --radius:10px;
+      --focus:3px rgba(27,39,64,0.12);
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,Arial;
+      background:#f6f7f9;
+      color:var(--brand-navy);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    header{
+      background:var(--brand-navy);
+      color:white;
+      padding:12px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    header a, header .brand { color:white; text-decoration:none; font-weight:600; }
+    main{
+      flex:1;
+      padding:20px;
+      max-width:1000px;
+      margin:auto;
+      display:grid;
+      gap:20px;
+      grid-template-columns: 300px 1fr;
+    }
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow:0 6px 20px rgba(27,39,64,0.06);
+      padding:20px;
+    }
+    .profile{
+      text-align:center;
+    }
+    .avatar{
+      width:100px;
+      height:100px;
+      border-radius:50%;
+      object-fit:cover;
+      border:3px solid var(--brand-yellow);
+      margin-bottom:10px;
+    }
+    .profile h2{margin:8px 0 4px;}
+    .muted{color:var(--muted); font-size:14px;}
+    .quick-links{
+      margin-top:20px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .btn{
+      background:var(--brand-red);
+      color:white;
+      border:none;
+      padding:10px;
+      border-radius:8px;
+      text-align:center;
+      cursor:pointer;
+      text-decoration:none;
+      font-weight:600;
+      display:inline-block;
+    }
+    .btn:hover{background:#b00f0f;}
+    .btn-alt{ background:#444; }
+    h3{
+      margin-top:0;
+      border-bottom:2px solid #eee;
+      padding-bottom:6px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+    }
+    th, td{
+      padding:8px;
+      border-bottom:1px solid #ddd;
+      text-align:left;
+    }
+    th{background:#f3f4f6;}
+    .small{ font-size:13px; color:var(--muted); }
+    @media(max-width:800px){
+      main{grid-template-columns: 1fr;}
+      .avatar{width:80px;height:80px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Limlim Foods</div>
+    <!-- Back to homepage goes up one level to the main index.html -->
+    <a href="../index.html" id="back-home">🏠 Back to Homepage</a>
+  </header>
+
+  <main>
+    <!-- Sidebar Profile -->
+    <aside class="card profile" aria-label="Profile">
+      <img src="images/avatar-placeholder.png" alt="User avatar" class="avatar" />
+      <h2 id="user-name">Ada Olu</h2>
+      <div id="user-email" class="muted">ada.olu@example.com</div>
+
+      <div class="quick-links" role="navigation" aria-label="Quick links">
+        <!-- same-folder links -->
+        <a href="fruits.html" class="btn">🍍 Shop Products</a>
+        <a href="cart.html" class="btn">🛒 View Cart</a>
+        <!-- Logout is a button to allow JS logic -->
+        <button id="logout-btn" class="btn btn-alt">🚪 Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Account Content -->
+    <section>
+      <div class="card" style="margin-bottom:20px;">
+        <h3>Order History</h3>
+        <table aria-live="polite">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Date</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody">
+            <!-- sample rows (will be replaced if you load real data) -->
+            <tr>
+              <td>1001</td>
+              <td>Aug 5, 2025</td>
+              <td>Banana Snacks, Mango Powder</td>
+              <td>₦17,000</td>
+              <td>Shipped</td>
+            </tr>
+            <tr>
+              <td>1000</td>
+              <td>July 28, 2025</td>
+              <td>Pineapple Snacks</td>
+              <td>₦2,000</td>
+              <td>Delivered</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Account Settings</h3>
+        <p class="small">Manage your personal details and preferences.</p>
+        <form id="profile-form" onsubmit="return false;">
+          <label for="name">Name</label><br>
+          <input id="name" type="text" value="Ada Olu" style="padding:8px;width:100%;margin-bottom:10px;">
+          <label for="email">Email</label><br>
+          <input id="email" type="email" value="ada.olu@example.com" style="padding:8px;width:100%;margin-bottom:10px;">
+          <label for="pwd">Password</label><br>
+          <input id="pwd" type="password" value="password" style="padding:8px;width:100%;margin-bottom:10px;">
+          <div style="margin-top:10px;">
+            <button id="save-profile" class="btn" type="button">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Make the nav links and logout work for your folder structure:
+    // - account.html, fruits.html, cart.html, login.html etc. are in the SAME folder.
+    // - index.html is in the parent folder (one level up).
+
+    (function(){
+      // Populate user info from localStorage if available
+      const userJson = localStorage.getItem('user'); // {name,email} assumed
+      if (userJson) {
+        try {
+          const user = JSON.parse(userJson);
+          if (user.name) document.getElementById('user-name').textContent = user.name;
+          if (user.email) {
+            document.getElementById('user-email').textContent = user.email;
+            // Also update settings form
+            document.getElementById('name').value = user.name || '';
+            document.getElementById('email').value = user.email || '';
+          }
+        } catch (e) { /* ignore parse errors */ }
+      }
+
+      // Logout: clear stored data and redirect to homepage (parent)
+      document.getElementById('logout-btn').addEventListener('click', function(){
+        // Clear app data (adjust keys as needed)
+        localStorage.removeItem('cart');
+        localStorage.removeItem('user');
+        // Optionally show a small confirmation (non-blocking). Then redirect:
+        // Redirect to the main site's index (one level up)
+        window.location.href = '../index.html';
+      });
+
+      // Save profile (demo: saves to localStorage)
+      document.getElementById('save-profile').addEventListener('click', function(){
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        if (!name || !email) {
+          alert('Please provide name and email.');
+          return;
+        }
+        const user = { name, email };
+        localStorage.setItem('user', JSON.stringify(user));
+        // Update UI
+        document.getElementById('user-name').textContent = name;
+        document.getElementById('user-email').textContent = email;
+        // Friendly confirmation (use a toast in future)
+        alert('Profile saved (demo).');
+      });
+
+      // Optional: if cart count or orders need to be loaded, you can read localStorage('cart') etc.
+    })();
+  </script>
+</body>
+</html>

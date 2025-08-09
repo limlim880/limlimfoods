@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Limlim Freeze-Dried — Premium freeze-dried fruits, vegetables & instant meals. 100% natural, no preservatives.">
+  <title>Limlim Freeze-Dried</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+<header class="navbar sticky">
+  <div class="logo">Limlim Foods</div>
+  <button id="menu-toggle" class="menu-toggle">☰</button>
+  <nav>
+    <ul id="nav-links" class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="products/fruits.html">Fruits</a></li>
+      <li><a href="products/vegetables.html">Vegetables</a></li>
+      <li><a href="products/meals.html">Meals</a></li>
+      <li>
+        <a href="products/cart.html">🛒 Cart <span id="cart-count" class="cart-badge">0</span></a>
+      </li>
+      <li><a href="products/login.html">👤 Login</a></li>
+    </ul>
+  </nav>
+  <button id="dark-toggle">🌓</button>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1><span class="highlight">Freeze-Dried Goodness</span>, Straight from Nature</h1>
+    <p>From tropical fruits to nourishing instant meals — pure nutrition with no additives or preservatives.</p>
+    <div class="hero-buttons">
+      <a href="products/fruits.html" class="btn btn-primary">🍍 Shop Fruits</a>
+      <a href="products/meals.html" class="btn btn-secondary">🥣 Try Meals</a>
+    </div>
+    <div class="trust-badges">
+      <div>✅ 100% Natural</div>
+      <div>🌍 Locally Sourced</div>
+      <div>🚚 Nationwide Delivery</div>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img src="images/hero-product.jpeg" alt="Limlim Freeze Dried Showcase" loading="lazy" />
+  </div>
+</section>
+
+<section class="categories">
+  <div class="card category-card">
+    <img src="images/fruits.jpeg" alt="Freeze Dried Fruits">
+    <h3>Fruits</h3>
+    <p>Tropical mango, banana, strawberry & more</p>
+    <a href="products/fruits.html" class="btn btn-primary">Shop Now</a>
+  </div>
+  <div class="card category-card">
+    <img src="images/vegetables.jpg" alt="Freeze Dried Vegetables">
+    <h3>Vegetables</h3>
+    <p>Tomatoes, carrots, onions, peppers & more</p>
+    <a href="products/vegetables.html" class="btn btn-primary">Shop Now</a>
+  </div>
+  <div class="card category-card">
+    <img src="images/meals.jpg" alt="Ready-to-Eat Meals">
+    <h3>Instant Meals</h3>
+    <p>Just add hot water. Nutritious meals in 2 mins.</p>
+    <a href="products/meals.html" class="btn btn-primary">Shop Now</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="products/fruits.html">Fruits</a>
+    <a href="products/vegetables.html">Vegetables</a>
+    <a href="products/meals.html">Meals</a>
+    <a href="products/cart.html">Cart</a>
+  </div>
+  <div class="social-icons">
+    <a href="#"><img src="images/icon-facebook.svg" alt="Facebook"></a>
+    <a href="#"><img src="images/icon-instagram.svg" alt="Instagram"></a>
+    <a href="#"><img src="images/icon-twitter.svg" alt="Twitter"></a>
+  </div>
+  <p>📧 hello@limlimfoods.com | 📞 +234 800 000 0000</p>
+  <p>&copy; 2025 Limlim Foods. All rights reserved.</p>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+  // Mobile nav toggle
+  document.getElementById('menu-toggle').addEventListener('click', function() {
+    document.getElementById('nav-links').classList.toggle('show');
+  });
+
+  // Cart badge update
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    document.getElementById('cart-count').textContent = totalQty;
+  }
+  updateCartCount();
+
+  // Listen for cart changes (other pages may update it)
+  window.addEventListener('storage', updateCartCount);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Create an account at Limlim Foods to order freeze-dried fruits, veggies & meals." />
+  <title>Create account • Limlim Foods</title>
+
+  <style>
+    :root{
+      --brand-red:#D41010;
+      --brand-navy:#1B2740;
+      --brand-yellow:#FFD66A;
+      --bg:#FBFBFB;
+      --card:#FFFFFF;
+      --muted:#5b6670;
+      --radius:10px;
+      --focus:3px rgba(27,39,64,0.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background:linear-gradient(180deg,#fff,#f6f7f9);
+      color:var(--brand-navy);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .wrap{ width:100%; max-width:980px; display:grid; grid-template-columns:1fr 420px; gap:28px; }
+    .hero{ padding:22px; }
+    .logo{ font-weight:700; color:var(--brand-yellow); background:var(--brand-navy); display:inline-block; padding:8px 12px; border-radius:8px; margin-bottom:16px; }
+    h1{ margin:0 0 8px 0; font-size:26px; }
+    p.helper{ margin:0; color:var(--muted); }
+
+    .card{ background:var(--card); padding:20px; border-radius:var(--radius); box-shadow:0 8px 30px rgba(27,39,64,0.06); min-height:420px; }
+    .nav-back{ margin-bottom:12px; }
+    .nav-btn{ background:transparent; color:var(--brand-navy); text-decoration:none; padding:8px 10px; border-radius:8px; display:inline-flex; align-items:center; gap:8px; }
+
+    form{ display:flex; flex-direction:column; gap:12px; }
+    label{ font-size:13px; color:var(--muted); }
+    .input{ display:flex; align-items:center; gap:8px; border:1px solid #e6e8eb; background:#fbfbfb; padding:10px 12px; border-radius:8px; }
+    .input input[type="text"], .input input[type="email"], .input input[type="password"], .input input[type="file"]{ border:none; outline:none; width:100%; font-size:15px; background:transparent; }
+
+    .row{ display:flex; gap:12px; }
+    .col{ flex:1; }
+
+    .btn-primary{ background:var(--brand-red); color:#fff; border:none; padding:12px 14px; border-radius:10px; font-weight:700; cursor:pointer; }
+    .btn-primary:disabled{ opacity:.6; cursor:not-allowed; }
+    .secondary{ background:transparent; border:1px solid #e6e8eb; padding:10px 12px; border-radius:8px; cursor:pointer; color:var(--brand-navy); }
+
+    .helper-small{ font-size:13px; color:var(--muted); }
+    .error{ color:#b00020; font-size:13px; }
+    .pw-strong { font-size:13px; color:green; }
+
+    /* avatar preview */
+    .avatar-preview{ width:56px; height:56px; border-radius:8px; object-fit:cover; border:1px solid #e6e8eb; }
+
+    /* toast */
+    .toast{ position:fixed; right:20px; bottom:20px; background:var(--brand-navy); color:white; padding:12px 16px; border-radius:12px; display:none; align-items:center; gap:12px; z-index:9999; box-shadow:0 10px 30px rgba(11,20,40,0.25); }
+
+    @media (max-width:920px){
+      .wrap{ grid-template-columns:1fr; padding:0 6px; }
+      .card{ order:2; margin-top:8px; }
+    }
+  </style>
+
+</head>
+<body>
+
+  <main class="wrap" role="main">
+    <section class="hero" aria-hidden="true">
+      <div class="logo">Limlim Foods</div>
+      <h1>Create your account</h1>
+      <p class="helper">Join Limlim to track orders, save favorites and checkout faster.</p>
+    </section>
+
+    <aside class="card" role="region" aria-labelledby="signup-title">
+      <div class="nav-back">
+        <!-- Robust back-to-login fallback: tries file, otherwise uses JS to go back -->
+        <a class="nav-btn" id="back-login" href="login.html" title="Back to login">← Back to login</a>
+      </div>
+
+      <h2 id="signup-title" style="margin:0 0 8px 0;">Sign up</h2>
+      <p class="helper-small" style="margin:0 0 14px 0;">Enter your details to create an account</p>
+
+      <form id="signup-form" novalidate>
+        <div class="row">
+          <div class="col">
+            <label for="first">First name</label>
+            <div class="input"><input id="first" name="first" type="text" placeholder="Ada" required aria-required="true"></div>
+            <div id="first-error" class="error" aria-live="polite"></div>
+          </div>
+
+          <div class="col">
+            <label for="last">Last name</label>
+            <div class="input"><input id="last" name="last" type="text" placeholder="Olu" required aria-required="true"></div>
+            <div id="last-error" class="error" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <div class="input"><input id="email" name="email" type="email" placeholder="you@example.com" required></div>
+          <div id="email-error" class="error" aria-live="polite"></div>
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <div class="input" style="justify-content:space-between;">
+            <input id="password" name="password" type="password" placeholder="Create a strong password" required>
+            <button type="button" id="toggle-pass" class="secondary" aria-pressed="false" aria-label="Show password">Show</button>
+          </div>
+          <div id="password-hint" class="helper-small">At least 8 characters, include letters & numbers.</div>
+          <div id="password-error" class="error" aria-live="polite"></div>
+        </div>
+
+        <div>
+          <label for="confirm">Confirm password</label>
+          <div class="input"><input id="confirm" name="confirm" type="password" placeholder="Repeat password" required></div>
+          <div id="confirm-error" class="error" aria-live="polite"></div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px;">
+          <label for="avatar" style="margin:0">Avatar (optional)</label>
+          <input id="avatar" name="avatar" type="file" accept="image/*" aria-label="Upload avatar">
+          <img id="avatar-preview" class="avatar-preview" alt="Avatar preview" src="" style="display:none" />
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:6px;">
+          <button type="submit" id="submit" class="btn-primary">Create account</button>
+          <button type="button" id="cancel" class="secondary">Cancel</button>
+        </div>
+
+        <div id="form-message" aria-live="polite" style="margin-top:10px;"></div>
+      </form>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"><span id="toast-text">Message</span></div>
+
+  <script>
+    (function(){
+      // Elements
+      const form = document.getElementById('signup-form');
+      const first = document.getElementById('first');
+      const last = document.getElementById('last');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const confirm = document.getElementById('confirm');
+      const avatar = document.getElementById('avatar');
+      const avatarPreview = document.getElementById('avatar-preview');
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      let toastTimer = null;
+
+      // Back-to-login fallback: if login.html missing, go back in history
+      const backLogin = document.getElementById('back-login');
+      backLogin.addEventListener('click', function(e){
+        // normal link will attempt navigation; as fallback, go back if navigation fails
+        setTimeout(()=> {
+          // nothing to do here if link works. We keep it simple.
+        }, 200);
+      });
+
+      // Toggle password visibility
+      const toggle = document.getElementById('toggle-pass');
+      toggle.addEventListener('click', ()=> {
+        const showing = password.type === 'text';
+        password.type = showing ? 'password' : 'text';
+        toggle.textContent = showing ? 'Show' : 'Hide';
+        toggle.setAttribute('aria-pressed', (!showing).toString());
+      });
+
+      // Avatar preview
+      avatar.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) { avatarPreview.style.display = 'none'; avatarPreview.src = ''; return; }
+        const url = URL.createObjectURL(file);
+        avatarPreview.src = url;
+        avatarPreview.style.display = 'block';
+      });
+
+      // Toast helper
+      function showToast(msg, duration=2500){
+        toastText.textContent = msg;
+        toast.style.display = 'flex';
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(()=> toast.style.display = 'none', duration);
+      }
+
+      // Basic client-side validation
+      function clearErrors(){
+        ['first','last','email','password','confirm'].forEach(id=>{
+          const el = document.getElementById(id+'-error');
+          if(el) el.textContent = '';
+        });
+        document.getElementById('form-message').textContent = '';
+      }
+
+      function validate(){
+        clearErrors();
+        let ok = true;
+        if (!first.value.trim()){ document.getElementById('first-error').textContent='First name required'; ok=false; }
+        if (!last.value.trim()){ document.getElementById('last-error').textContent='Last name required'; ok=false; }
+        if (!email.value.trim() || !/^\S+@\S+\.\S+$/.test(email.value)){ document.getElementById('email-error').textContent='Valid email required'; ok=false; }
+        if (!password.value || password.value.length < 8){ document.getElementById('password-error').textContent='Password must be ≥ 8 chars'; ok=false; }
+        if (password.value !== confirm.value){ document.getElementById('confirm-error').textContent='Passwords do not match'; ok=false; }
+        return ok;
+      }
+
+      // Simulated submit — replace with fetch()/API call
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!validate()) return;
+
+        const submitBtn = document.getElementById('submit');
+        submitBtn.disabled = true;
+        const original = submitBtn.textContent;
+        submitBtn.textContent = 'Creating…';
+
+        // Simulate network call
+        setTimeout(()=>{
+          submitBtn.disabled = false;
+          submitBtn.textContent = original;
+
+          // success: show toast and redirect to login (or auto-login)
+          showToast('Account created successfully!');
+          // Option: redirect to login page after short delay
+          setTimeout(()=> {
+            // If login.html exists, go there; otherwise, go to index
+            if (location.href.includes('file:')) {
+              // local file — attempt direct link
+              location.href = 'login.html';
+            } else {
+              location.href = 'login.html';
+            }
+          }, 900);
+        }, 900);
+      });
+
+      // Cancel button: go back or to home
+      document.getElementById('cancel').addEventListener('click', ()=> {
+        if (history.length > 1) history.back();
+        else location.href = 'index.html';
+      });
+
+      // Keyboard accessibility: pressing Enter in confirm triggers submit by default
+
+    })();
+  </script>
+</body>
+</html>

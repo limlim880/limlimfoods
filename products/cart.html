@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart – Limlim Foods</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px; border: 1px solid #ccc; text-align: center; }
+    th { background-color: #f4f4f4; }
+    .empty { color: #888; margin-top: 30px; font-size: 18px; text-align: center; }
+    .total-row td { font-weight: bold; }
+    button.remove { background: crimson; color: white; border: none; padding: 6px 12px; cursor: pointer; }
+    button.remove:hover { background: darkred; }
+    .clear-btn { margin-top: 20px; padding: 10px 16px; background: black; color: white; border: none; cursor: pointer; }
+    .clear-btn:hover { background: #333; }
+  </style>
+</head>
+<body>
+  <h1>🛒 Your Cart</h1>
+  <div id="cart-container"></div>
+  <button class="clear-btn" onclick="clearCart()">🗑️ Clear Cart</button>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const container = document.getElementById('cart-container');
+
+    function renderCart() {
+      if (!cart || cart.length === 0) {
+        container.innerHTML = `<p class="empty">Your cart is empty.</p>`;
+        return;
+      }
+
+      let tableHTML = `
+        <table id="cart-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Size</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      let grandTotal = 0;
+
+      cart.forEach((item, index) => {
+        const name = item.name || '—';
+        const size = item.size || '—';
+        const price = parseFloat(item.price) || 0;
+        const qty = parseInt(item.qty) || 1;
+        const itemTotal = price * qty;
+        grandTotal += itemTotal;
+
+        tableHTML += `
+          <tr>
+            <td>${name}</td>
+            <td>${size}</td>
+            <td>₦${price.toLocaleString()}</td>
+            <td>${qty}</td>
+            <td>₦${itemTotal.toLocaleString()}</td>
+            <td><button class="remove" data-index="${index}">Remove</button></td>
+          </tr>
+        `;
+      });
+
+      tableHTML += `
+          <tr class="total-row">
+            <td colspan="4">Grand Total</td>
+            <td colspan="2" id="total-price">₦${grandTotal.toLocaleString()}</td>
+          </tr>
+        </tbody>
+      </table>
+      `;
+
+      container.innerHTML = tableHTML;
+
+      // Remove individual item
+      document.querySelectorAll('.remove').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const index = this.dataset.index;
+          cart.splice(index, 1);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart(); // re-render
+        });
+      });
+    }
+
+    function clearCart() {
+      localStorage.removeItem('cart');
+      cart = [];
+      renderCart();
+    }
+
+    // Load on page
+    renderCart();
+  </script>
+</body>
+</html>
