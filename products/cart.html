@@ -2,102 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart – Limlim Foods</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 12px; border: 1px solid #ccc; text-align: center; }
-    th { background-color: #f4f4f4; }
-    .empty { color: #888; margin-top: 30px; font-size: 18px; text-align: center; }
-    .total-row td { font-weight: bold; }
-    button.remove { background: crimson; color: white; border: none; padding: 6px 12px; cursor: pointer; }
-    button.remove:hover { background: darkred; }
-    .clear-btn { margin-top: 20px; padding: 10px 16px; background: black; color: white; border: none; cursor: pointer; }
-    .clear-btn:hover { background: #333; }
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h2 { margin-bottom: 10px; }
+    .cart-item { border-bottom: 1px solid #ddd; padding: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+    .qty-controls { display: flex; align-items: center; gap: 8px; }
+    .qty-btn { padding: 5px 10px; cursor: pointer; }
+    .remove-btn { margin-left: 10px; background: #dc3545; color: white; border: none; padding: 5px 8px; cursor: pointer; border-radius: 3px; }
+    label { display: block; margin-top: 10px; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px 15px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <h1>🛒 Your Cart</h1>
-  <div id="cart-container"></div>
-  <button class="clear-btn" onclick="clearCart()">🗑️ Clear Cart</button>
+  <h2>Your Cart</h2>
+  <div id="cart-items"></div>
+  <h3>Total: ₦<span id="cart-total">0</span></h3>
+
+  <button onclick="proceedToCheckout()">Proceed to Checkout</button>
 
   <script>
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const container = document.getElementById('cart-container');
 
-    function renderCart() {
-      if (!cart || cart.length === 0) {
-        container.innerHTML = `<p class="empty">Your cart is empty.</p>`;
-        return;
-      }
-
-      let tableHTML = `
-        <table id="cart-table">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Size</th>
-              <th>Price</th>
-              <th>Qty</th>
-              <th>Total</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
-
-      let grandTotal = 0;
-
-      cart.forEach((item, index) => {
-        const name = item.name || '—';
-        const size = item.size || '—';
-        const price = parseFloat(item.price) || 0;
-        const qty = parseInt(item.qty) || 1;
-        const itemTotal = price * qty;
-        grandTotal += itemTotal;
-
-        tableHTML += `
-          <tr>
-            <td>${name}</td>
-            <td>${size}</td>
-            <td>₦${price.toLocaleString()}</td>
-            <td>${qty}</td>
-            <td>₦${itemTotal.toLocaleString()}</td>
-            <td><button class="remove" data-index="${index}">Remove</button></td>
-          </tr>
-        `;
-      });
-
-      tableHTML += `
-          <tr class="total-row">
-            <td colspan="4">Grand Total</td>
-            <td colspan="2" id="total-price">₦${grandTotal.toLocaleString()}</td>
-          </tr>
-        </tbody>
-      </table>
-      `;
-
-      container.innerHTML = tableHTML;
-
-      // Remove individual item
-      document.querySelectorAll('.remove').forEach(btn => {
-        btn.addEventListener('click', function () {
-          const index = this.dataset.index;
-          cart.splice(index, 1);
-          localStorage.setItem('cart', JSON.stringify(cart));
-          renderCart(); // re-render
-        });
-      });
+    function calcItemsTotal() {
+      return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
     }
 
-    function clearCart() {
-      localStorage.removeItem('cart');
-      cart = [];
+    function renderCart() {
+      let container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      if(cart.length === 0) {
+        container.innerHTML = '<p>Your cart is empty.</p>';
+        document.getElementById('cart-total').innerText = '0';
+        return;
+      }
+      cart.forEach((item, index) => {
+        let div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <span>${item.name} - ₦${item.price.toLocaleString()}</span>
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+            <span>${item.qty}</span>
+            <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+            <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+      document.getElementById('cart-total').innerText = calcItemsTotal().toLocaleString();
+      localStorage.setItem('cart', JSON.stringify(cart)); // persist updates
+    }
+
+    function updateQty(index, change) {
+      cart[index].qty += change;
+      if (cart[index].qty <= 0) {
+        cart.splice(index, 1); // remove item if qty is zero
+      }
       renderCart();
     }
 
-    // Load on page
+    function removeItem(index) {
+      if(confirm('Remove this item from cart?')) {
+        cart.splice(index, 1);
+        renderCart();
+      }
+    }
+
+    function proceedToCheckout() {
+      if(cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+      window.location.href = "checkout.html";
+    }
+
     renderCart();
   </script>
 </body>
