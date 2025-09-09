@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Limlim Foods - Fruits</title>
+  <style>
+    :root {
+      --primary: #D41010;
+      --accent: #4FB71A;
+      --neutral: #f9f9f9;
+      --dark: #1B2740;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #fff;
+      color: var(--dark);
+    }
+    h1, h2 { margin-bottom: 10px; }
+    .nav-section { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+    .nav-btn {
+      background: var(--primary); color: #fff; padding: 10px 16px;
+      text-decoration: none; border-radius: 4px; transition: background 0.3s ease;
+    }
+    .nav-btn:hover { background: #b00f0f; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .product-card {
+      border: 1px solid #ddd; background: var(--neutral);
+      border-radius: 8px; text-align: center; padding: 12px;
+      transition: box-shadow 0.3s;
+    }
+    .product-card:hover { box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+    .product-card img {
+      width: 100%; height: 160px; object-fit: cover;
+      border-radius: 5px;
+    }
+    .btn {
+      background: var(--primary); color: #fff; border: none;
+      padding: 8px 16px; margin-top: 8px; cursor: pointer;
+      border-radius: 4px; transition: background 0.3s ease;
+    }
+    .btn:hover { background: #b00f0f; }
+    .trust-badges {
+      display: flex; gap: 15px; flex-wrap: wrap;
+      font-size: 0.9rem; color: var(--dark);
+      margin-bottom: 20px;
+    }
+    #toast {
+      visibility: hidden; min-width: 250px;
+      background: var(--primary); color: white; text-align: center;
+      border-radius: 5px; padding: 16px;
+      position: fixed; z-index: 1000; left: 50%; bottom: 30px;
+      transform: translateX(-50%); font-size: 14px;
+    }
+    #toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+    @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+    footer {
+      padding: 30px 20px; text-align: center;
+      background: var(--dark); color: #fff; margin-top: 40px;
+    }
+    .footer-links a {
+      color: #fff; margin: 0 8px; text-decoration: none;
+    }
+    .footer-links a:hover { text-decoration: underline; }
+    .social-icons a img {
+      width: 24px; height: 24px; margin: 0 6px; filter: invert(1);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sticky Navbar -->
+<header style="background: var(--dark); color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;">
+  <div style="font-weight: 700;">Limlim Foods</div>
+  <nav>
+    <a href="../index.html" style="color: #fff; margin-right: 10px;">Home</a>
+    <a href="fruits.html" style="color: #fff; margin-right: 10px;">Fruits</a>
+    <a href="vegetables.html" style="color: #fff; margin-right: 10px;">Vegetables</a>
+    <a href="meals.html" style="color: #fff; margin-right: 10px;">Meals</a>
+    <a href="cart.html" style="color: #fff; position: relative;">
+      🛒 Cart <span id="cart-count" style="background: var(--primary); color: #fff; border-radius: 50%; padding: 2px 6px; font-size: 0.75rem; position: absolute; top: -8px; right: -16px;">0</span>
+    </a>
+  </nav>
+</header>
+
+<h1>Fruit Products</h1>
+
+<!-- Trust Badges -->
+<div class="trust-badges">
+  <div>✅ 100% Natural</div>
+  <div>🌍 Locally Sourced</div>
+  <div>🚚 Nationwide Delivery</div>
+</div>
+
+  <h2>Fruit Jars</h2>
+  <div class="grid">
+    <div class="product-card" data-id="8" data-name="Banana Snack Jar" data-size="65G" data-price="600">
+      <img src="../images/banana-jar.jpeg" alt="Banana Jar" loading="lazy">
+      <h3>Banana Jar</h3>
+      <p>65G • ₦300</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="9" data-name="Agbalumo Snack Jar" data-size="50G" data-price="5000">
+      <img src="../images/agbalumo-snack-jar.jpeg" alt="Agbalumo Snack Jar" loading="lazy">
+      <h3>Agbalumo Snack Jar</h3>
+      <p>50G • ₦5,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="10" data-name="Strawberry Snacks Jar" data-size="50G" data-price="7000">
+      <img src="../images/strawberry-snacks-jar.jpeg" alt="Strawberry Snacks Jar" loading="lazy">
+      <h3>Strawberry Snacks Jar</h3>
+      <p>50G • ₦7,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="11" data-name="Pinacola Powder Jar" data-size="50G" data-price="8000">
+      <img src="../images/pinacola-powder-jar.jpeg" alt="Pinacola Powder Jar" loading="lazy">
+      <h3>Pinacola Powder Jar</h3>
+      <p>50G • ₦8,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="12" data-name="Pinacola Powder Jar" data-size="100G" data-price="16000">
+      <img src="../images/pinacola-powder-jar.jpeg" alt="Pinacola Powder Jar" loading="lazy">
+      <h3>Pinacola Powder Jar</h3>
+      <p>100G • ₦16,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="13" data-name="Mango Snack Jar" data-size="50G" data-price="4000">
+      <img src="../images/mango-snacks-jar.jpeg" alt="Mango Snack Jar" loading="lazy">
+      <h3>Mango Snack Jar</h3>
+      <p>50G • ₦4,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="14" data-name="Pineapple Snack Jar" data-size="50G" data-price="4000">
+      <img src="../images/pineapple-snack-jar.jpeg" alt="Pineapple Snacks Jar" loading="lazy">
+      <h3>Pineapple Snacks Jar</h3>
+      <p>50G • ₦4,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="15" data-name="Yogurt Bites Jar" data-size="50G" data-price="7500">
+      <img src="../images/yogurt-bites-jar.jpeg" alt="Yogurt Bites Jar" loading="lazy">
+      <h3>Yogurt Bites Jar</h3>
+      <p>50G • ₦7,500</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="16" data-name="Mango Banana Jar" data-size="50G" data-price="4000">
+      <img src="../images/mango-banana-snacks-jar.jpeg" alt="Mango Banana Jar" loading="lazy">
+      <h3>Mango Banana Jar</h3>
+      <p>50G • ₦4,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+
+    <!-- Add more jars if needed -->
+  </div>
+
+  <h2>Fruit Powders</h2>
+  <div class="grid">
+    <div class="product-card" data-id="17" data-name="Mango Powder" data-size="200G" data-price="15000">
+      <img src="images/mango_powder.jpeg" alt="Mango Powder" loading="lazy">
+      <h3>Mango Powder</h3>
+      <p>200G • ₦15,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="18" data-name="Date Powder" data-size="200G" data-price="7000">
+      <img src="images/date_powder.jpeg" alt="Date Powder" loading="lazy">
+      <h3>Date Powder</h3>
+      <p>200G • ₦7,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="19" data-name="Lemon Powder" data-size="200G" data-price="15000">
+      <img src="images/Lemon_powder.jpeg" alt="Lemon Powder" loading="lazy">
+      <h3>Lemon Powder</h3>
+      <p>200G • ₦15,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="20" data-name="Lime Powder" data-size="200G" data-price="13000">
+      <img src="images/lime_powder.jpeg" alt="Lime Powder" loading="lazy">
+      <h3>Mango Powder</h3>
+      <p>200G • ₦13,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="21" data-name="Pineapple Powder" data-size="200G" data-price="16000">
+      <img src="images/pineapple_powder.jpeg" alt="Pineapple Powder" loading="lazy">
+      <h3>Pineapple Powder</h3>
+      <p>200G • ₦16,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="22" data-name="Strawberry Powder" data-size="200G" data-price="27000">
+      <img src="images/strawberry_powder.jpeg" alt="Strawberry Powder" loading="lazy">
+      <h3>Strawberry Powder</h3>
+      <p>200G • ₦27,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="23" data-name="Coconut Milk Powder" data-size="200G" data-price="32000">
+      <img src="images/coconut_milk_powder.jpeg" alt="Coconut Milk Powder" loading="lazy">
+      <h3>Coconut Milk Powder</h3>
+      <p>200G • ₦32,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="24" data-name="Soursop Powder" data-size="200G" data-price="20000">
+      <img src="images/soursop_powder.jpeg" alt="Soursop Powder" loading="lazy">
+      <h3>Soursop Powder</h3>
+      <p>200G • ₦20,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="25" data-name="Agbalumo Powder Jar" data-size="100G" data-price="9000">
+      <img src="images/agbalumo_powder_jar.jpeg" alt="Agbalumo Powder Jar" loading="lazy">
+      <h3>Agbalumo Powder Jar</h3>
+      <p>100G • ₦9,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+    <div class="product-card" data-id="26" data-name="Limade Powder Jar" data-size="100G" data-price="7000">
+      <img src="images/limade_jar.jpeg" alt="Limade Powder Jar" loading="lazy">
+      <h3>Limade Powder Jar</h3>
+      <p>100G • ₦7,000</p>
+      <button class="btn add-to-cart">Add to Cart</button>
+    </div>
+
+    <!-- Add more powders if needed -->
+  </div>
+
+<!-- Toast -->
+<div id="toast" role="status" aria-live="polite">Added to cart!</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="fruits.html">Fruits</a>
+    <a href="vegetables.html">Vegetables</a>
+    <a href="meals.html">Meals</a>
+    <a href="cart.html">Cart</a>
+  </div>
+  <div class="social-icons">
+    <a href="#"><img src="../images/icon-facebook.svg" alt="Facebook"></a>
+    <a href="#"><img src="../images/icon-instagram.svg" alt="Instagram"></a>
+    <a href="#"><img src="../images/icon-twitter.svg" alt="Twitter"></a>
+  </div>
+  <p>📧 hello@limlimfoods.com | 📞 +234 809 997 2019</p>
+  <p>&copy; 2025 Limlim Foods. All rights reserved.</p>
+</footer>
+
+<script>
+  // Cart badge update
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    document.getElementById('cart-count').textContent = totalQty;
+  }
+  updateCartCount();
+  window.addEventListener('storage', updateCartCount);
+
+  // Add to cart functionality
+  const toast = document.getElementById('toast');
+  document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.product-card');
+      const id = card.dataset.id;
+      const name = card.dataset.name;
+      const size = card.dataset.size;
+      const price = parseFloat(card.dataset.price);
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id, name, size, price, qty: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      toast.textContent = `${name} added to cart!`;
+      toast.className = 'show';
+      setTimeout(() => toast.className = toast.className.replace('show', ''), 3000);
+    });
+  });
+</script>
+
+</body>
+</html>
