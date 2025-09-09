@@ -1,26 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cart</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h2 { margin-bottom: 10px; }
-    .cart-item { border-bottom: 1px solid #ddd; padding: 8px 0; display: flex; justify-content: space-between; align-items: center; }
-    .qty-controls { display: flex; align-items: center; gap: 8px; }
-    .qty-btn { padding: 5px 10px; cursor: pointer; }
-    .remove-btn { margin-left: 10px; background: #dc3545; color: white; border: none; padding: 5px 8px; cursor: pointer; border-radius: 3px; }
-    label { display: block; margin-top: 10px; }
-    input, select { width: 100%; padding: 8px; margin-top: 5px; }
-    button { margin-top: 15px; padding: 10px 15px; cursor: pointer; }
-  </style>
-</head>
 <body>
   <h2>Your Cart</h2>
   <div id="cart-items"></div>
   <h3>Total: ₦<span id="cart-total">0</span></h3>
 
+  <button onclick="goBackHome()" style="margin-right: 10px;">Back to Home Page</button>
   <button onclick="proceedToCheckout()">Proceed to Checkout</button>
 
   <script>
@@ -79,7 +62,10 @@
       window.location.href = "checkout.html";
     }
 
+    function goBackHome() {
+      window.location.href = '../index.html'; // change to your home page path
+    }
+
     renderCart();
   </script>
 </body>
-</html>

@@ -60,9 +60,9 @@
       font-weight: bold;
       font-size: 18px;
     }
-    .back-home {
-      display: block;
-      margin: 30px auto 0;
+    .back-home, .print-btn, .whatsapp-link {
+      display: inline-block;
+      margin: 15px 10px 0 0;
       padding: 12px 20px;
       background: #28a745;
       color: #fff;
@@ -71,8 +71,9 @@
       border-radius: 5px;
       width: fit-content;
       transition: background 0.3s ease;
+      cursor: pointer;
     }
-    .back-home:hover {
+    .back-home:hover, .print-btn:hover, .whatsapp-link:hover {
       background: #218838;
     }
   </style>
@@ -80,7 +81,10 @@
 <body>
   <div class="container" id="order-container">
     <h1>🎉 Thank You for Your Order!</h1>
-    <h1> Please send a screenshot of this Page to this whatsapp Number:+234 808 152 0469 !</h1>
+    <h1>
+      Please send a screenshot of this Page to this WhatsApp Number: 
+      <a href="https://wa.me/2348099972019" target="_blank" rel="noopener noreferrer" class="whatsapp-link">+234 809 997 2019</a>!
+    </h1>
     <p style="text-align:center;">Your payment was successful. A confirmation email has been sent to you.</p>
 
     <div class="summary" id="order-summary">
@@ -113,6 +117,9 @@
       <p class="grand">Grand Total: ₦<span id="order-total">0</span></p>
     </div>
 
+    <!-- New Buttons -->
+    <button class="print-btn" onclick="window.print()">🖨️ Print Order Receipt</button>
+    <a href="https://wa.me/2348099972019" target="_blank" rel="noopener noreferrer" class="whatsapp-link">💬 Chat on WhatsApp</a>
     <a href="cart.html" class="back-home">← Back to Cart</a>
   </div>
 

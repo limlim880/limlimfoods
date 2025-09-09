@@ -65,12 +65,22 @@
 
     <label>Phone</label>
     <input type="tel" id="phone" name="phone" value="07042252132" required>
+    
+    <!-- Added Address field -->
+    <label>Address</label>
+    <input type="text" id="address" name="address" placeholder="Enter your delivery address" required>
 
     <!-- Delivery -->
     <h3>Delivery Method</h3>
     <select id="delivery">
-      <option value="Pickup">Pickup - ₦0</option>
-      <option value="Home Delivery">Home Delivery - ₦500</option>
+      <option value="0">Pickup - ₦0</option>
+      <option value="3000">Lagos – Festac, Magodo Isheri/Omole 1 & 2, Ogba – ₦3,000</option>
+      <option value="3500">Lagos – Mainland only – ₦3,500</option>
+      <option value="4000">Lagos – Surulere, Yaba, Shomolu – ₦4,000</option>
+      <option value="5000">Lagos – Island (before VGC) – ₦5,000</option>
+      <option value="6000">Lagos – Ikorodu / outskirts – ₦6,000</option>
+      <option value="7500">Lagos – Island (Ajah) – ₦7,500</option>
+      <option value="8000">Lagos – Island (Lekki, VI, Ikoyi) – ₦8,000</option>
     </select>
 
     <p>Delivery Fee: ₦<span id="deliveryFee">0</span></p>
@@ -118,6 +128,7 @@
       let name = document.getElementById("fullname").value;
       let email = document.getElementById("email").value;
       let phone = document.getElementById("phone").value;
+      let address = document.getElementById("address").value;
       let delivery = document.getElementById("delivery").value;
       let deliveryFee = parseInt(document.getElementById("deliveryFee").textContent);
       let grandTotal = parseInt(document.getElementById("grandTotal").textContent);
@@ -127,7 +138,7 @@
         email: email,
         amount: grandTotal * 100, 
         currency: "NGN",
-        ref: ''+Math.floor((Math.random() * 1000000000) + 1), 
+        ref: '' + Math.floor((Math.random() * 1000000000) + 1), 
 
         callback: function(response) {
           const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -135,7 +146,7 @@
 
           // Save order in localStorage
           const order = {
-            customer: { name, email, phone },
+            customer: { name, email, phone, address },  // added address here
             delivery,
             deliveryFee,
             items: cart,
@@ -146,14 +157,15 @@
 
           localStorage.setItem("lastOrder", JSON.stringify(order));
 
-          // ✅ Prepare items list
+          // Prepare items list
           const orderItems = cart.map(i => `${i.qty} x ${i.name} - ₦${i.price * i.qty}`).join("\n");
 
-          // ✅ Send customer email
+          // Send customer email
           emailjs.send("service_svgmj98", "template_g20vpge", {
             customer_name: name,
             customer_email: email,
             customer_phone: phone,
+            customer_address: address,  // added address
             delivery_method: delivery,
             delivery_fee: deliveryFee,
             total_amount: grandTotal,
@@ -162,14 +174,15 @@
           }).then(() => {
             alert("✅ Customer email sent!");
           }).catch(err => {
-            alert("❌Customer email failed: " +JSON.stringify(err));
+            alert("❌Customer email failed: " + JSON.stringify(err));
           });
 
-          // ✅ Send business email
+          // Send business email
           emailjs.send("service_svgmj98", "template_4q3cuyi", {
             customer_name: name,
             customer_email: email,
             customer_phone: phone,
+            customer_address: address,  // added address
             delivery_method: delivery,
             delivery_fee: deliveryFee,
             total_amount: grandTotal,
@@ -178,10 +191,10 @@
           }).then(() => {
             alert("Business email sent ✅");
           }).catch(err => {
-            alert("Business email failed ❌"+ JSON.stringify(err));
+            alert("Business email failed ❌" + JSON.stringify(err));
           });
 
-          // ✅ Redirect to thank you page
+          // Redirect to thank you page
           window.location.href = "thankyou.html";
         },
 
